@@ -38,7 +38,11 @@ const observer = new IntersectionObserver(entries => {
     }
   });
 }, {
+<<<<<<< HEAD
   rootMargin: '-72px 0px 0px 0px',
+=======
+  rootMargin: '-80px 0px 0px 0px', // Adjust for fixed header height (80px)
+>>>>>>> 3043b1b8f652fc1a4145576c60bc07260862e3c5
   threshold: 0.5 // Trigger when 50% of section visible
 });
 
