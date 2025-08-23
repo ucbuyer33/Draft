@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-content">
+      <div>
+        <div class="name">Shajafuddin Khan</div>
+        <div class="tagline">Aspiring Web Developer</div>
+      </div>
+      <label class="hamburger" aria-label="Open menu" aria-controls="navbar" aria-expanded="false">
+        <input type="checkbox" id="menu-toggle" />
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path class="line line-top-bottom"
+            d="M27 10 13 10C10.8 10 9 8.2 9 6 
+               9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6
+               L17 26C17 28.2 18.8 30 21 30 
+               23.2 30 25 28.2 25 26 
+               25 23.8 23.2 22 21 22L7 22" />
+          <path class="line" d="M7 16 27 16" />
+        </svg>
+      </label>
+      <nav id="navbar" aria-hidden="true">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#resume">Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <!-- Home -->
+<section id="home" class="home fade-in">
+      <div class="container">
+        <h1>Welcome to My Portfolio</h1>
+        <p>I'm a passionate student learning web development and programming</p>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about fade-in">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p>Hello! I'm Shajafuddin Fakhruddin Khan, a dedicated BSc IT student with a strong passion for
+              programming and web development...</p>
+            <p>Currently, I'm expanding my knowledge in various programming languages and working on different
+              projects...</p>
+            <p>When I'm not coding, I enjoy exploring new technologies...</p>
+          </div>
+          <div class="profile-img">
+            <img
+              src="https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg"
+              alt="Shajafuddin Fakhruddin Khan">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="skills fade-in">
+      <div class="container">
+        <h2 class="section-title">My Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <img src="https://cdn-icons-png.freepik.com/512/5968/5968267.png" alt="HTML">
+            <p>HTML</p>
+          </div>
+          <div class="skill-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968242.png" alt="CSS">
+            <p>CSS</p>
+          </div>
+          <div class="skill-card">
+            <img src="https://www.clipartmax.com/png/middle/470-4707396_javascript-icon-html-css-js-icons.png" alt="JavaScript">
+            <p>JavaScript</p>
+          </div>
+          <div class="skill-card">
+            <img src="https://images.icon-icons.com/112/PNG/512/python_18894.png" alt="Python">
+            <p>Python</p>
+          </div>
+          <div class="skill-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/C_Programming_Language.svg" alt="C">
+            <p>C Programming</p>
+          </div>
+          <div class="skill-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" alt="C++">
+            <p>C++ Programming</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="projects fade-in">
+      <div class="container">
+        <h2 class="section-title">My Projects</h2>
+        <div class="projects-grid">
+          <div class="project-card">
+            <h3>Countdown Web App</h3>
+            <p>A simple web app that shows a live countdown...</p>
+          </div>
+          <div class="project-card">
+            <h3>Personal Calculator</h3>
+            <p>A responsive calculator application with basic arithmetic...</p>
+          </div>
+          <div class="project-card">
+            <h3>Student Grade Tracker</h3>
+            <p>A Python app to track student grades...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resume -->
+    <section id="resume" class="resume fade-in">
+      <div class="container">
+        <h2 class="section-title">Resume</h2>
+        <p>Download my resume to learn more about my background, education, and experience.</p>
+        <br>
+        <a href="resume.pdf" class="resume-btn" download>Download Resume (PDF)</a>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact fade-in">
+      <div class="container">
+        <h2 class="section-title">Contact Me</h2>
+        <div class="contact-info">
+          <div class="contact-item">
+            <h3>Email</h3>
+            <a href="mailto:khshajaf786@gmail.com">khshajaf786@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <h3>Phone</h3>
+            <a href="tel:+917045890321">+91 7045890321</a>
+          </div>
+          <div class="contact-item">
+            <h3>GitHub</h3>
+            <a href="https://github.com/shajafkhan" target="_blank">github.com/shajafkhan</a>
+          </div>
+          <div class="contact-item">
+            <h3>LinkedIn</h3>
+            <a href="#" target="_blank">linkedin.com/in/shajafkhan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <small>&copy; 2025 Shajafuddin Fakhruddin Khan. All rights reserved.</small>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
