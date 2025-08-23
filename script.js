@@ -14,30 +14,38 @@ document.querySelectorAll("nav ul li a").forEach(link => {
     menuToggle.checked = false; // reset hamburger animation
   });
 });
-// Smooth scrolling
+
+// Smooth scrolling with block 'start'
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute('href'));
     if (target) {
-target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 });
-// Scroll Spy
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll("nav ul li a");
+
+const navLinks = document.querySelectorAll('nav ul li a');
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      navLinks.forEach(link => link.classList.remove("active"));
-      const id = entry.target.getAttribute("id");
+      navLinks.forEach(link => link.classList.remove('active'));
+      const id = entry.target.getAttribute('id');
       const activeLink = document.querySelector(`nav ul li a[href="#${id}"]`);
-      if (activeLink) activeLink.classList.add("active");
-    }});
-},{ threshold: 0.2, rootMargin: "-25% 0px -40% 0px"});
-sections.forEach(section => observer.observe(section));
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+}, {
+  rootMargin: '-80px 0px 0px 0px', // Adjust for fixed header height (80px)
+  threshold: 0.5 // Trigger when 50% of section visible
+});
+
+document.querySelectorAll('section').forEach(section => observer.observe(section));
+
+
+
 // Skills animation (pop-in scaling)
 window.addEventListener('scroll', () => {
   const skillsSection = document.querySelector('.skills');
@@ -54,18 +62,26 @@ window.addEventListener('scroll', () => {
     });
   }
 });
-/* ==========================================================
-   FADE-IN ANIMATIONS (Reusable)
-   ========================================================== */
-const fadeElements = document.querySelectorAll(
-  ".fade-in, .section-title, .skill-card, .project-card, .contact-item"
-);
-const fadeObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      fadeObserver.unobserve(entry.target); // animate once
-    }
+
+// ========================
+// Fade-In on Scroll
+// ========================
+const fadeSections = document.querySelectorAll('.fade-in');
+// Fallback: if IntersectionObserver not supported
+if (!('IntersectionObserver' in window)) {
+  fadeSections.forEach(el => el.classList.add('visible'));
+} else {
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target); // Animate only once
+      }
+    });
+  }, {
+    threshold: 0.15,           // fire when 15% is visible
+    rootMargin: '0px 0px -10% 0px'
   });
-}, { threshold: 0.2 });
-fadeElements.forEach(el => fadeObserver.observe(el));
+
+  fadeSections.forEach(el => observer.observe(el));
+}
