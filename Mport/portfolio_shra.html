@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shravani Chaugule — Portfolio</title>
+  <meta name="description" content="Shravani Chaugule — BSc IT student and aspiring web developer." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6361/6361475.png">
+  <link rel="stylesheet"  href="style.css">
+  <style></style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header>
+    <div class="brand">
+      <div class="logo">Shravani Chaugule</div>
+      <div class="tag">BSc IT Student &amp; Aspiring Web Developer</div>
+    </div>
+
+    <nav class="desktop">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <button id="menuButton" title="Open menu">
+      <svg viewBox="0 0 100 100" width="44" height="44" xmlns="http://www.w3.org/2000/svg">
+        <path class="line top" d="M 30,35 H 70" />
+        <path class="line middle" d="M 30,50 H 70" />
+        <path class="line bottom" d="M 30,65 H 70" />
+      </svg>
+    </button>
+
+    <nav id="navbar">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="container">
+    <section id="home" class="hero fade-in">
+      <div class="left">
+        <h1>Welcome to my portfolio</h1>
+        <p>I'm Shravani — a BSc IT student building web projects and exploring programming. I focus on clean, accessible interfaces and practical tools.</p>
+        <div class="cta">
+          <a class="btn pdf" href="resume.pdf" download>Download Resume (PDF)</a>
+          <a class="btn" href="#projects">See Projects</a>
+        </div>
+      </div>
+
+      <img src="https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833572.jpg?semt=ais_hybrid&w=740&q=80" alt="Shravani Chaugule">
+    </section>
+
+    <section id="about" class="card fade-in">
+      <h2>About Me</h2>
+      <p>I'm a BSc IT student with a passion for building web apps and learning full-stack development. I enjoy turning ideas into working projects and improving usability with accessible design.</p>
+      <p>Currently I work on small tools and web UIs while learning modern JavaScript and Python practices.</p>
+    </section>
+
+    <section id="skills" class="card fade-in">
+      <h2>Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-box">
+          <h3>Frontend</h3>
+          <div class="skills-icons">
+            <div class="skill-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" width="48" height="48" />
+              <span>HTML</span>
+            </div>
+            <div class="skill-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS" width="48" height="48" />
+              <span>CSS</span>
+            </div>
+            <div class="skill-item">
+              <img src="https://static.cdnlogo.com/logos/j/69/javascript.svg" alt="JavaScript" width="48" height="48" />
+              <span>JavaScript</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-box">
+          <h3>Backend & Languages</h3>
+          <div class="skills-icons">
+            <div class="skill-item">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" width="48" height="48" />
+              <span>Python</span>
+            </div>
+            <div class="skill-item">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/C_Programming_Language.svg" alt="C" width="48" height="48" />
+              <span>C</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="card fade-in">
+      <h2>Projects</h2>
+      <p style="color:#61707a; margin-bottom:18px;">Selected project highlights — click to view code.</p>
+
+      <div class="projects-grid">
+        <article id="proj-countdown" class="proj fade-in">
+          <div class="proj-body">
+            <h3>Countdown Web App</h3>
+            <p>Responsive web app that displays live countdown timers with pause/resume and timezone support. Clean, accessible UI and keyboard shortcuts.</p>
+          </div>
+          <button class="view-btn" type="button">View Code</button>
+        </article>
+
+        <article id="proj-calculator" class="proj fade-in">
+          <div class="proj-body">
+            <h3>Personal Calculator</h3>
+            <p>Keyboard-friendly calculator with expression parsing and responsive layout — designed for quick arithmetic and testing.</p>
+          </div>
+          <button class="view-btn" type="button">View Code</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="card fade-in contact-section">
+      <h2>Contact Me</h2>
+      <p>If you’d like to connect, here are the ways to reach me:</p>
+
+      <div class="contact-grid">
+        <a href="tel:+919876543210" class="contact-card">
+          <h3>Phone</h3>
+          <span>+91 98765 43210</span>
+        </a>
+
+        <a href="mailto:abc@example.com" class="contact-card">
+          <h3>Email</h3>
+          <span>abc@example.com</span>
+        </a>
+
+        <a href="https://github.com/username" class="contact-card" target="_blank">
+          <h3>GitHub</h3>
+          <span>github.com/username</span>
+        </a>
+
+        <a href="https://linkedin.com/in/username" class="contact-card" target="_blank">
+          <h3>LinkedIn</h3>
+          <span>linkedin.com/in/username</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer style="text-align:center;padding:32px 0;color:#61707a">© 2025 Shravani. All rights reserved.</footer>
+
+  <script src="script.js"> </script>
+</body>
+</html>
