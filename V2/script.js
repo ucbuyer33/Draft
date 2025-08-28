@@ -1,91 +1,77 @@
-// Hamburger menu toggle
-const menuToggle = document.getElementById("menu-toggle");
-const navbar = document.getElementById("navbar");
-menuToggle.addEventListener("change", () => {
-  const expanded = menuToggle.checked;
-  navbar.classList.toggle("active", expanded);
-  document.querySelector(".hamburger").setAttribute("aria-expanded", String(expanded));
-  navbar.setAttribute("aria-hidden", String(!expanded));
-});
-// Close menu when clicking a link
-document.querySelectorAll("nav ul li a").forEach(link => {
-  link.addEventListener("click", () => {
-    navbar.classList.remove("active");
-    menuToggle.checked = false; // reset hamburger animation
-  });
-});
-
-// Smooth scrolling with block 'start'
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
-
-const navLinks = document.querySelectorAll('nav ul li a');
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(link => link.classList.remove('active'));
-      const id = entry.target.getAttribute('id');
-      const activeLink = document.querySelector(`nav ul li a[href="#${id}"]`);
-      if (activeLink) activeLink.classList.add('active');
-    }
-  });
-}, {
-<<<<<<< HEAD
-  rootMargin: '-72px 0px 0px 0px',
-=======
-  rootMargin: '-80px 0px 0px 0px', // Adjust for fixed header height (80px)
->>>>>>> 3043b1b8f652fc1a4145576c60bc07260862e3c5
-  threshold: 0.5 // Trigger when 50% of section visible
-});
-
-document.querySelectorAll('section').forEach(section => observer.observe(section));
-
-
-
-// Skills animation (pop-in scaling)
-window.addEventListener('scroll', () => {
-  const skillsSection = document.querySelector('.skills');
-  const skillItems = document.querySelectorAll('.skill-card');
-  const sectionTop = skillsSection.offsetTop;
-  const windowHeight = window.innerHeight;
-  const scrollTop = window.pageYOffset;
-  if (scrollTop > (sectionTop - windowHeight + 100)) {
-    skillItems.forEach((item, index) => {
-      setTimeout(() => {
-        item.style.transform = 'scale(1.05)';
-        item.style.transition = 'transform 0.3s ease';
-      }, index * 100);
-    });
-  }
-});
+// ========================
+// Get elements
+// ========================
+const menuToggle = document.querySelector("#menu-toggle");
+const navbar = document.querySelector("#navbar");
+const hamburger = document.querySelector(".hamburger");
 
 // ========================
-// Fade-In on Scroll
+// Hamburger Menu Toggle
 // ========================
-const fadeSections = document.querySelectorAll('.fade-in');
-// Fallback: if IntersectionObserver not supported
-if (!('IntersectionObserver' in window)) {
-  fadeSections.forEach(el => el.classList.add('visible'));
-} else {
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        obs.unobserve(entry.target); // Animate only once
-      }
-    });
-  }, {
-    threshold: 0.15,           // fire when 15% is visible
-    rootMargin: '0px 0px -10% 0px'
+if (menuToggle && navbar && hamburger) {
+  menuToggle.addEventListener("change", () => {
+    // Toggle menu visible class when checkbox changes
+    navbar.classList.toggle("active");
   });
 
-  fadeSections.forEach(el => observer.observe(el));
+  // Close menu when a nav link is clicked
+  document.querySelectorAll("nav a").forEach(link => {
+    link.addEventListener("click", () => {
+      navbar.classList.remove("active");
+      // uncheck the checkbox so visual state matches
+      menuToggle.checked = false;
+    });
+  });
 }
+
+// ========================
+// Smooth Scrolling (safe)
+// ========================
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", function (e) {
+    const href = this.getAttribute("href") || "";
+    // ignore plain "#" and empty hrefs
+    if (href === "#" || href === "") return;
+
+    // try to find the target element
+    const target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+});
+
+// highlight nav + fade-in
+window.addEventListener("scroll", () => {
+  const fromTop = window.scrollY + 80; // account for fixed header
+
+  document.querySelectorAll("section[id]").forEach(section => {
+    const id = section.getAttribute("id");
+    const link = document.querySelector(`nav a[href="#${id}"]`);
+    if (!link) return;
+
+    if (
+      section.offsetTop <= fromTop &&
+      section.offsetTop + section.offsetHeight > fromTop
+    ) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
+
+  document.querySelectorAll(".fade-in").forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 100) {
+      el.classList.add("visible");
+    }
+  });
+});
+
+
+// Run once on load so items near top become visible immediately
+document.addEventListener("DOMContentLoaded", () => {
+  // trigger one scroll handler run
+  window.dispatchEvent(new Event('scroll'));
+});
