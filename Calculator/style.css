@@ -48,6 +48,7 @@ button {
 }
 .operator {
   background: #4CAF50;
+  font-size: 15px;
   color: #fff;
 }
 
@@ -67,6 +68,7 @@ button {
   color: #fff;
   grid-row: span 2;
   grid-column: 4;
+  font-size: 15px;
 }
 .equals:hover{
   background: #1e81d3;

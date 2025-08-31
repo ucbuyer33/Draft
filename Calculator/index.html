@@ -4,30 +4,31 @@
   <meta charset="UTF-8">
   <title>Calculator</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="calculator">
     <input id="display" class="display" readonly>
     <div class="buttons">
       <button class="clear" onclick="clearDisplay()">C</button>
-      <button class="operator" onclick="addValue('/')">/</button>
-      <button class="operator" onclick="addValue('*')">*</button>
-      <button class="operator" onclick="delLast()">←</button>
+      <button class="operator" onclick="addValue('/')"><i class="fas fa-divide"></i></button>
+      <button class="operator" onclick="addValue('*')"><i class="fas fa-times"></i></button>
+      <button class="operator" onclick="delLast()"><i class="fas fa-backspace"></i></button>
 
       <button class="number" onclick="addValue('7')">7</button>
       <button class="number" onclick="addValue('8')">8</button>
       <button class="number" onclick="addValue('9')">9</button>
-      <button class="operator" onclick="addValue('-')">-</button>
+      <button class="operator" onclick="addValue('-')"><i class="fas fa-minus"></i></button>
 
       <button class="number" onclick="addValue('4')">4</button>
       <button class="number" onclick="addValue('5')">5</button>
       <button class="number" onclick="addValue('6')">6</button>
-      <button class="operator" onclick="addValue('+')">+</button>
+      <button class="operator" onclick="addValue('+')"><i class="fas fa-plus"></i></button>
 
       <button class="number" onclick="addValue('1')">1</button>
       <button class="number" onclick="addValue('2')">2</button>
       <button class="number" onclick="addValue('3')">3</button>
-      <button class="equals" onclick="calc()">=</button>
+      <button class="equals" onclick="calc()"><i class="fas fa-equals"></i></button>
 
       <button class="number zero" onclick="addValue('0')">0</button>
       <button class="number" onclick="addValue('.')">.</button>

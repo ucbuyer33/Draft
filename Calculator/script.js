@@ -1,29 +1,48 @@
-let d = document.getElementById("display"),
-    ops = ["+", "-", "*", "/"];
+let display = document.getElementById("display"),
+    ops = ["+", "-", "*", "/"],
+    expression = "";  // internal JS expression for logic
+
+const visMap = { "*": "×", "/": "÷", "-": "−", "+": "+" };
+const logicMap = { "×": "*", "÷": "/", "−": "-", "+": "+" };
 
 function addValue(v) {
-  let last = d.value.slice(-1);
-  for (let i = 0; i < ops.length; i++) {
-    if (v == ops[i]) {
-      for (let j = 0; j < ops.length; j++) {
-        if (last == ops[j]) return;
-      }
-    }
-  }
-  if (v == ".") {
-    let parts = d.value.split(/[-+*/]/);
+  let last = expression.slice(-1);
+
+  // Prevent two operators in a row
+  if (ops.includes(v) && ops.includes(last)) return;
+
+  // Prevent multiple decimals in a single number
+  if (v === ".") {
+    let parts = expression.split(/[-+*/]/);
     if (parts[parts.length - 1].includes(".")) return;
   }
-  d.value += v;
+
+  expression += v;
+  display.value += visMap[v] || v;  // Show pretty symbol
 }
 
-function clearDisplay() { d.value = ""; }
-function delLast() { d.value = d.value.slice(0, -1); }
+function clearDisplay() {
+  expression = "";
+  display.value = "";
+}
+
+function delLast() {
+  expression = expression.slice(0, -1);
+  display.value = display.value.slice(0, -1);
+}
+
 function calc() {
   try {
-    if (d.value == "") return;
-    d.value = new Function("return " + d.value)();
+    if (expression === "") return;
+
+    // Evaluate the internal logic string
+    const result = new Function("return " + expression)();
+
+    // Reset everything to show result
+    expression = result.toString();
+    display.value = expression;
   } catch {
-    d.value = "Error";
+    expression = "";
+    display.value = "Error";
   }
 }
