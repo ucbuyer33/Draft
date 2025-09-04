@@ -1,87 +1,97 @@
-// Hamburger menu toggle
-const menuToggle = document.getElementById("menu-toggle");
-const navbar = document.getElementById("navbar");
-menuToggle.addEventListener("change", () => {
-  const expanded = menuToggle.checked;
-  navbar.classList.toggle("active", expanded);
-  document.querySelector(".hamburger").setAttribute("aria-expanded", String(expanded));
-  navbar.setAttribute("aria-hidden", String(!expanded));
-});
-// Close menu when clicking a link
-document.querySelectorAll("nav ul li a").forEach(link => {
-  link.addEventListener("click", () => {
-    navbar.classList.remove("active");
-    menuToggle.checked = false; // reset hamburger animation
+// ==========================
+// Get Elements from the Page
+// ==========================
+const menuToggle = document.querySelector("#menu-toggle"); // the checkbox for mobile menu
+const navbar = document.querySelector("#navbar"); // the nav menu itself
+const hamburger = document.querySelector(".hamburger"); // the icon that shows the menu
+
+// ==========================
+// Toggle the Mobile Menu
+// ==========================
+if (menuToggle && navbar && hamburger) {
+  // When the menu is opened or closed
+  menuToggle.addEventListener("change", () => {
+    navbar.classList.toggle("active"); // show or hide the nav
   });
-});
 
-// Smooth scrolling with block 'start'
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
-
-const navLinks = document.querySelectorAll('nav ul li a');
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(link => link.classList.remove('active'));
-      const id = entry.target.getAttribute('id');
-      const activeLink = document.querySelector(`nav ul li a[href="#${id}"]`);
-      if (activeLink) activeLink.classList.add('active');
-    }
-  });
-}, {
-  rootMargin: '-80px 0px 0px 0px', // Adjust for fixed header height (80px)
-  threshold: 0.5 // Trigger when 50% of section visible
-});
-
-document.querySelectorAll('section').forEach(section => observer.observe(section));
-
-
-
-// Skills animation (pop-in scaling)
-window.addEventListener('scroll', () => {
-  const skillsSection = document.querySelector('.skills');
-  const skillItems = document.querySelectorAll('.skill-card');
-  const sectionTop = skillsSection.offsetTop;
-  const windowHeight = window.innerHeight;
-  const scrollTop = window.pageYOffset;
-  if (scrollTop > (sectionTop - windowHeight + 100)) {
-    skillItems.forEach((item, index) => {
-      setTimeout(() => {
-        item.style.transform = 'scale(1.05)';
-        item.style.transition = 'transform 0.3s ease';
-      }, index * 100);
+  // When any nav link is clicked, close the menu
+  const navLinks = document.querySelectorAll("nav a");
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      navbar.classList.remove("active"); // hide the nav
+      menuToggle.checked = false; // uncheck the menu toggle
     });
-  }
-});
-
-// ========================
-// Fade-In on Scroll
-// ========================
-const fadeSections = document.querySelectorAll('.fade-in');
-// Fallback: if IntersectionObserver not supported
-if (!('IntersectionObserver' in window)) {
-  fadeSections.forEach(el => el.classList.add('visible'));
-} else {
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        obs.unobserve(entry.target); // Animate only once
-      }
-    });
-  }, {
-    threshold: 0.15,           // fire when 15% is visible
-    rootMargin: '0px 0px -10% 0px'
   });
-
-  fadeSections.forEach(el => observer.observe(el));
 }
+
+// ==========================
+// Smooth Scrolling for Links
+// ==========================
+const scrollLinks = document.querySelectorAll('a[href^="#"]');
+
+scrollLinks.forEach(link => {
+  link.addEventListener("click", function (e) {
+    const targetId = this.getAttribute("href");
+
+    // Ignore if it's just "#" or empty
+    if (!targetId || targetId === "#") return;
+
+    const target = document.querySelector(targetId);
+
+    if (target) {
+      e.preventDefault(); // stop the default jump
+      target.scrollIntoView({
+        behavior: "smooth", // smooth scroll effect
+        block: "start"      // scroll so the top of the section is at the top
+      });
+    }
+  });
+});
+
+// ==========================
+// Highlight Active Section in Nav
+// ==========================
+window.addEventListener("scroll", () => {
+  const scrollPosition = window.scrollY + 80; // add offset for fixed header
+
+  const sections = document.querySelectorAll("section[id]");
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.offsetHeight;
+    const sectionId = section.getAttribute("id");
+    const navLink = document.querySelector(`nav a[href="#${sectionId}"]`);
+
+    if (!navLink) return;
+
+    // Check if the section is in view
+    if (
+      scrollPosition >= sectionTop &&
+      scrollPosition < sectionTop + sectionHeight
+    ) {
+      navLink.classList.add("active");
+    } else {
+      navLink.classList.remove("active");
+    }
+  });
+
+  // ==========================
+  // Fade In Elements When Scrolling
+  // ==========================
+  const fadeElements = document.querySelectorAll(".fade-in");
+
+  fadeElements.forEach(el => {
+    const rect = el.getBoundingClientRect(); // get element position on screen
+
+    if (rect.top < window.innerHeight - 100) {
+      el.classList.add("visible"); // show it with fade-in animation
+    }
+  });
+});
+
+// ==========================
+// Show Fade-in Elements on Page Load
+// ==========================
+document.addEventListener("DOMContentLoaded", () => {
+  // Trigger the scroll event once so elements near the top appear
+  window.dispatchEvent(new Event("scroll"));
+});

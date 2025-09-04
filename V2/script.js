@@ -1,77 +1,97 @@
-// ========================
-// Get elements
-// ========================
-const menuToggle = document.querySelector("#menu-toggle");
-const navbar = document.querySelector("#navbar");
-const hamburger = document.querySelector(".hamburger");
+// ==========================
+// Get Elements from the Page
+// ==========================
+const menuToggle = document.querySelector("#menu-toggle"); // the checkbox for mobile menu
+const navbar = document.querySelector("#navbar"); // the nav menu itself
+const hamburger = document.querySelector(".hamburger"); // the icon that shows the menu
 
-// ========================
-// Hamburger Menu Toggle
-// ========================
+// ==========================
+// Toggle the Mobile Menu
+// ==========================
 if (menuToggle && navbar && hamburger) {
+  // When the menu is opened or closed
   menuToggle.addEventListener("change", () => {
-    // Toggle menu visible class when checkbox changes
-    navbar.classList.toggle("active");
+    navbar.classList.toggle("active"); // show or hide the nav
   });
 
-  // Close menu when a nav link is clicked
-  document.querySelectorAll("nav a").forEach(link => {
+  // When any nav link is clicked, close the menu
+  const navLinks = document.querySelectorAll("nav a");
+  navLinks.forEach(link => {
     link.addEventListener("click", () => {
-      navbar.classList.remove("active");
-      // uncheck the checkbox so visual state matches
-      menuToggle.checked = false;
+      navbar.classList.remove("active"); // hide the nav
+      menuToggle.checked = false; // uncheck the menu toggle
     });
   });
 }
 
-// ========================
-// Smooth Scrolling (safe)
-// ========================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener("click", function (e) {
-    const href = this.getAttribute("href") || "";
-    // ignore plain "#" and empty hrefs
-    if (href === "#" || href === "") return;
+// ==========================
+// Smooth Scrolling for Links
+// ==========================
+const scrollLinks = document.querySelectorAll('a[href^="#"]');
 
-    // try to find the target element
-    const target = document.querySelector(href);
+scrollLinks.forEach(link => {
+  link.addEventListener("click", function (e) {
+    const targetId = this.getAttribute("href");
+
+    // Ignore if it's just "#" or empty
+    if (!targetId || targetId === "#") return;
+
+    const target = document.querySelector(targetId);
+
     if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      e.preventDefault(); // stop the default jump
+      target.scrollIntoView({
+        behavior: "smooth", // smooth scroll effect
+        block: "start"      // scroll so the top of the section is at the top
+      });
     }
   });
 });
 
-// highlight nav + fade-in
+// ==========================
+// Highlight Active Section in Nav
+// ==========================
 window.addEventListener("scroll", () => {
-  const fromTop = window.scrollY + 80; // account for fixed header
+  const scrollPosition = window.scrollY + 80; // add offset for fixed header
 
-  document.querySelectorAll("section[id]").forEach(section => {
-    const id = section.getAttribute("id");
-    const link = document.querySelector(`nav a[href="#${id}"]`);
-    if (!link) return;
+  const sections = document.querySelectorAll("section[id]");
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.offsetHeight;
+    const sectionId = section.getAttribute("id");
+    const navLink = document.querySelector(`nav a[href="#${sectionId}"]`);
 
+    if (!navLink) return;
+
+    // Check if the section is in view
     if (
-      section.offsetTop <= fromTop &&
-      section.offsetTop + section.offsetHeight > fromTop
+      scrollPosition >= sectionTop &&
+      scrollPosition < sectionTop + sectionHeight
     ) {
-      link.classList.add("active");
+      navLink.classList.add("active");
     } else {
-      link.classList.remove("active");
+      navLink.classList.remove("active");
     }
   });
 
-  document.querySelectorAll(".fade-in").forEach(el => {
-    const rect = el.getBoundingClientRect();
+  // ==========================
+  // Fade In Elements When Scrolling
+  // ==========================
+  const fadeElements = document.querySelectorAll(".fade-in");
+
+  fadeElements.forEach(el => {
+    const rect = el.getBoundingClientRect(); // get element position on screen
+
     if (rect.top < window.innerHeight - 100) {
-      el.classList.add("visible");
+      el.classList.add("visible"); // show it with fade-in animation
     }
   });
 });
 
-
-// Run once on load so items near top become visible immediately
+// ==========================
+// Show Fade-in Elements on Page Load
+// ==========================
 document.addEventListener("DOMContentLoaded", () => {
-  // trigger one scroll handler run
-  window.dispatchEvent(new Event('scroll'));
+  // Trigger the scroll event once so elements near the top appear
+  window.dispatchEvent(new Event("scroll"));
 });
