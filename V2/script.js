@@ -1,97 +1,136 @@
-// ==========================
-// Get Elements from the Page
-// ==========================
-const menuToggle = document.querySelector("#menu-toggle"); // the checkbox for mobile menu
-const navbar = document.querySelector("#navbar"); // the nav menu itself
-const hamburger = document.querySelector(".hamburger"); // the icon that shows the menu
 
-// ==========================
-// Toggle the Mobile Menu
-// ==========================
-if (menuToggle && navbar && hamburger) {
-  // When the menu is opened or closed
-  menuToggle.addEventListener("change", () => {
-    navbar.classList.toggle("active"); // show or hide the nav
-  });
-
-  // When any nav link is clicked, close the menu
-  const navLinks = document.querySelectorAll("nav a");
-  navLinks.forEach(link => {
-    link.addEventListener("click", () => {
-      navbar.classList.remove("active"); // hide the nav
-      menuToggle.checked = false; // uncheck the menu toggle
+document.addEventListener("DOMContentLoaded", function () {
+  // Mobile menu
+  const menuToggle = document.getElementById("menu-toggle");
+  const navbar = document.getElementById("navbar");
+  if (menuToggle && navbar) {
+    menuToggle.addEventListener("change", () => {
+      navbar.classList.toggle("active");
     });
-  });
+    document.querySelectorAll("nav a").forEach(link => {
+      link.addEventListener("click", () => {
+        navbar.classList.remove("active");
+        menuToggle.checked = false;
+      });
+    });
+  }
+
+  // Active section + fade-in on scroll
+  function handleScroll() {
+    const scrollPosition = window.scrollY + 180;
+    document.querySelectorAll("section[id]").forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const id = section.getAttribute("id");
+      const navLink = document.querySelector('nav a[href="#' + id + '"]');
+      if (navLink) {
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          navLink.classList.add("active");
+        } else {
+          navLink.classList.remove("active");
+        }
+      }
+    });
+    document.querySelectorAll(".fade-in").forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100) el.classList.add("visible");
+    });
+  }
+  window.addEventListener("scroll", handleScroll);
+  handleScroll(); // run once on load
+// Modal + form logic
+const modal = document.getElementById("messageModal");
+const openBtn = document.getElementById("sendMessageBtn");
+const closeBtns = document.querySelectorAll(".close-btn");
+const form = document.getElementById("messageForm");
+
+function toggleModal(show) {
+  if (show) {
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+  } else {
+    modal.classList.remove("show");
+    document.body.style.overflow = "auto";
+    if (form) {
+      form.reset();
+      clearErrors();
+      const success = form.querySelector(".success-message");
+      if (success) success.remove();
+    }
+  }
 }
 
-// ==========================
-// Smooth Scrolling for Links
-// ==========================
-const scrollLinks = document.querySelectorAll('a[href^="#"]');
-
-scrollLinks.forEach(link => {
-  link.addEventListener("click", function (e) {
-    const targetId = this.getAttribute("href");
-
-    // Ignore if it's just "#" or empty
-    if (!targetId || targetId === "#") return;
-
-    const target = document.querySelector(targetId);
-
-    if (target) {
-      e.preventDefault(); // stop the default jump
-      target.scrollIntoView({
-        behavior: "smooth", // smooth scroll effect
-        block: "start"      // scroll so the top of the section is at the top
-      });
-    }
-  });
+if (openBtn) openBtn.addEventListener("click", () => toggleModal(true));
+closeBtns.forEach((btn) => btn.addEventListener("click", () => toggleModal(false)));
+window.addEventListener("click", (e) => {
+  if (e.target === modal) toggleModal(false);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && modal.classList.contains("show")) toggleModal(false);
 });
 
-// ==========================
-// Highlight Active Section in Nav
-// ==========================
-window.addEventListener("scroll", () => {
-  const scrollPosition = window.scrollY + 80; // add offset for fixed header
+function clearErrors() {
+  form.querySelectorAll(".error-message").forEach((e) => (e.textContent = ""));
+}
 
-  const sections = document.querySelectorAll("section[id]");
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.offsetHeight;
-    const sectionId = section.getAttribute("id");
-    const navLink = document.querySelector(`nav a[href="#${sectionId}"]`);
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = msg;
+}
 
-    if (!navLink) return;
+function validate() {
+  clearErrors();
+  let valid = true;
+  const name = form.Name.value.trim();
+  const contact = form.Contact.value.trim();
+  const message = form.Message.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const mobileRegex = /^[+]?\d{10,15}$/;
 
-    // Check if the section is in view
-    if (
-      scrollPosition >= sectionTop &&
-      scrollPosition < sectionTop + sectionHeight
-    ) {
-      navLink.classList.add("active");
+  if (name.length < 2) {
+    showError("nameError", "Name must be at least 2 characters");
+    valid = false;
+  }
+  if (!emailRegex.test(contact) && !mobileRegex.test(contact)) {
+    showError("contactError", "Enter valid email or mobile");
+    valid = false;
+  }
+  if (message.length < 10) {
+    showError("messageError", "Message must be at least 10 characters");
+    valid = false;
+  }
+
+  return valid;
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (!validate()) return;
+
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (response.ok) {
+      form.innerHTML = `
+        <div class="success-message">
+          <h4>Message Sent Successfully!</h4>
+          <p>Thank you for reaching out. A reply will follow soon.</p>
+        </div>
+      `;
     } else {
-      navLink.classList.remove("active");
+      const data = await response.json();
+      alert(data?.errors?.[0]?.message || "Something went wrong. Please try again.");
     }
-  });
-
-  // ==========================
-  // Fade In Elements When Scrolling
-  // ==========================
-  const fadeElements = document.querySelectorAll(".fade-in");
-
-  fadeElements.forEach(el => {
-    const rect = el.getBoundingClientRect(); // get element position on screen
-
-    if (rect.top < window.innerHeight - 100) {
-      el.classList.add("visible"); // show it with fade-in animation
-    }
-  });
-});
-
-// ==========================
-// Show Fade-in Elements on Page Load
-// ==========================
-document.addEventListener("DOMContentLoaded", () => {
-  // Trigger the scroll event once so elements near the top appear
-  window.dispatchEvent(new Event("scroll"));
-});
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    alert("An error occurred while sending your message.");
+  }
+});});
