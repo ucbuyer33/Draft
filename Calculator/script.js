@@ -1,48 +1,104 @@
-let display = document.getElementById("display"),
-    ops = ["+", "-", "*", "/"],
-    expression = "";  // internal JS expression for logic
 
-const visMap = { "*": "×", "/": "÷", "-": "−", "+": "+" };
-const logicMap = { "×": "*", "÷": "/", "−": "-", "+": "+" };
+(() => {
+  const display = document.getElementById('display');
+  const buttons = document.querySelectorAll('.buttons button');
 
-function addValue(v) {
-  let last = expression.slice(-1);
+  const ops = ['+', '-', '*', '/'];
+  const visMap = { '*': '×', '/': '÷', '-': '−', '+': '+' };
+  const logicMap = { '×': '*', '÷': '/', '−': '-', '+': '+' };
 
-  // Prevent two operators in a row
-  if (ops.includes(v) && ops.includes(last)) return;
+  let expression = '';
+  let shown = '';
 
-  // Prevent multiple decimals in a single number
-  if (v === ".") {
-    let parts = expression.split(/[-+*/]/);
-    if (parts[parts.length - 1].includes(".")) return;
+  function render() {
+    display.value = shown;
   }
 
-  expression += v;
-  display.value += visMap[v] || v;  // Show pretty symbol
-}
+  function addValue(v) {
+    const last = expression.slice(-1);
 
-function clearDisplay() {
-  expression = "";
-  display.value = "";
-}
+    if (ops.includes(v) && ops.includes(last)) return;
 
-function delLast() {
-  expression = expression.slice(0, -1);
-  display.value = display.value.slice(0, -1);
-}
+    if (v === '.') {
+      const parts = expression.split(/[-+*/]/);
+      const current = parts[parts.length - 1];
+      if (current.includes('.')) return;
+      if (current === '') {
+        expression += '0';
+        shown += '0';
+      }
+    }
 
-function calc() {
-  try {
-    if (expression === "") return;
-
-    // Evaluate the internal logic string
-    const result = new Function("return " + expression)();
-
-    // Reset everything to show result
-    expression = result.toString();
-    display.value = expression;
-  } catch {
-    expression = "";
-    display.value = "Error";
+    expression += v;
+    shown += visMap[v] || v;
+    render();
   }
-}
+
+  function clearDisplay() {
+    expression = '';
+    shown = '';
+    render();
+  }
+
+  function delLast() {
+    if (!expression) return;
+    expression = expression.slice(0, -1);
+    shown = shown.slice(0, -1);
+    render();
+  }
+
+  function calc() {
+    if (!expression) return;
+
+    const last = expression.slice(-1);
+    if (ops.includes(last)) {
+      expression = expression.slice(0, -1);
+      shown = shown.slice(0, -1);
+    }
+
+    try {
+      const result = Function('"use strict";return (' + expression + ')')();
+      expression = String(result);
+      shown = expression;
+      render();
+    } catch (e) {
+      expression = '';
+      shown = 'Error';
+      render();
+    }
+  }
+
+  for (const btn of buttons) {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.type;
+      if (type === 'digit') {
+        addValue(btn.dataset.value);
+      } else if (type === 'operator') {
+        addValue(btn.dataset.value);
+      } else if (type === 'action') {
+        const action = btn.dataset.action;
+        if (action === 'clear') clearDisplay();
+        else if (action === 'del') delLast();
+        else if (action === 'equals') calc();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    const k = e.key;
+
+    if ((k >= '0' && k <= '9') || ops.includes(k) || k === '.') {
+      e.preventDefault();
+      addValue(k);
+    } else if (k === 'Enter' || k === '=') {
+      e.preventDefault();
+      calc();
+    } else if (k === 'Backspace') {
+      e.preventDefault();
+      delLast();
+    } else if (k === 'Escape') {
+      e.preventDefault();
+      clearDisplay();
+    }
+  });
+})();
