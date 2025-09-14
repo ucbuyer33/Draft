@@ -1,106 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify - Music for Everyone</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spotify - Music for Everyone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header with navigation -->
-    <header>
-        <nav class="navbar">
-            <div class="nav-brand">
-                <h2>Spotify</h2>
-            </div>
-            <!-- Mobile menu button -->
-            <div class="nav-toggle" id="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <!-- Navigation menu -->
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <nav class="container navbar">
+      <div class="nav-left">
+        <a class="brand" href="#home">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify logo" width="36" height="36">
+          <span class="brand-title">Spotify</span>
+        </a>
+      </div>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="nav-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </nav>
+  </header>
 
-    <!-- Hero section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Welcome to Spotify</h1>
-            <p>Discover millions of songs and podcasts for free</p>
-            <button class="cta-button" onclick="scrollToSection('services')">Explore Services</button>
+  <main>
+    <section id="home" class="home">
+      <div class="home-bg"></div>
+      <div class="home-overlay"></div>
+      <div class="home-content container section-inner">
+        <h1>Welcome to Spotify</h1>
+        <p>Discover millions of songs and podcasts for free — create playlists, download for offline listening, and enjoy music anywhere.</p>
+        <div class="cta-row">
+          <button class="cta-button primary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Explore Services</button>
+          <a href="#contact" class="cta-button">Contact Us</a>
         </div>
+      </div>
     </section>
 
-    <!-- Services/Features section -->
     <section id="services" class="services">
-        <div class="container">
-            <h2>Our Features</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <h3>Endless Music</h3>
-                    <p>Access millions of songs from your favorite artists</p>
-                </div>
-                <div class="service-card">
-                    <h3>Podcasts</h3>
-                    <p>Listen to thousands of podcasts on any topic</p>
-                </div>
-                <div class="service-card">
-                    <h3>Offline Mode</h3>
-                    <p>Download music and listen anywhere without internet</p>
-                </div>
-                <div class="service-card">
-                    <h3>Personal Playlists</h3>
-                    <p>Create and share your own custom playlists</p>
-                </div>
-            </div>
+      <div class="container section-inner">
+        <h3>Our Features</h3>
+        <div class="services-grid">
+          <div class="service-card">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=60" alt="Phone showing offline music">
+            <h4>Endless Music</h4>
+            <p>Access millions of songs from your favorite artists, curated playlists, and smart recommendations tuned to your taste.</p>
+          </div>
+          <div class="service-card">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=60" alt="Person listening to music with headphones">
+            <h4>Podcasts</h4>
+            <p>Browse thousands of podcasts — news, storytelling, education, true crime and more. Follow shows and download episodes for offline listening.</p>
+          </div>
+          <div class="service-card">
+            <img src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?auto=format&fit=crop&w=1200&q=60" alt="Microphone for podcasting">
+            <h4>Offline Mode</h4>
+            <p>Save your favorite songs and podcasts to listen without an internet connection — great for flights, commutes and low-data days.</p>
+          </div>
+          <div class="service-card">
+            <img src="https://plus.unsplash.com/premium_photo-1682096504254-4b6400241e91?fm=jpg&ixlib=rb-4.1.0&q=60&w=1200" alt="Playlist on a device">
+            <h4>Personal Playlists</h4>
+            <p>Create, share and collaborate on playlists. Make them private, public, or share with friends — discover music together.</p>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- About section -->
     <section id="about" class="about">
-        <div class="container">
-            <h2>About Spotify</h2>
-            <p>Spotify is a digital music service that gives you access to millions of songs, podcasts, and videos from artists all over the world. Our mission is to unlock the potential of human creativity by giving a million creative artists the opportunity to live off their art and billions of fans the opportunity to enjoy and be inspired by it.</p>
+      <div class="container section-inner">
+        <div class="about-left">
+          <h3>About Spotify</h3>
+          <p class="about-lead">Spotify connects listeners and creators around the world — millions of tracks, thousands of podcasts, and personalized experiences that adapt to your taste. We make music discoverable and creators discover success.</p>
+          <ul class="about-list">
+            <li><strong>Personalized</strong> playlists and recommendations tuned to your taste.</li>
+            <li><strong>Offline-ready</strong> listening, cross-device sync, and robust discovery tools.</li>
+            <li><strong>Creator tools</strong> for publishing, analytics, and audience building.</li>
+          </ul>
+          <div class="about-cta">
+            <button class="cta-button primary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Explore Features</button>
+            <a class="cta-button" href="#contact">Contact Sales</a>
+          </div>
+          <div class="about-stats">
+            <div class="stat">
+              <div class="number">100M+</div>
+              <div class="label">Tracks</div>
+            </div>
+            <div class="stat">
+              <div class="number">5M+</div>
+              <div class="label">Podcasts</div>
+            </div>
+            <div class="stat">
+              <div class="number">200K+</div>
+              <div class="label">Playlists</div>
+            </div>
+          </div>
         </div>
+        <div class="about-figure">
+          <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=60" alt="Person listening to music with headphones">
+          <div class="floating-card">
+            <div class="title">Daily Mix • Indie</div>
+            <div class="meta">24 songs — 1 hr 42 min</div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Contact section -->
     <section id="contact" class="contact">
-        <div class="container">
-            <h2>Contact Us</h2>
-            <form class="contact-form" id="contact-form">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit">Send Message</button>
-            </form>
-            <div class="form-message" id="form-message"></div>
-        </div>
+      <div class="container section-inner">
+        <h3>Contact Us</h3>
+        <form class="contact-form" id="contact-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+          </div>
+          <button type="submit">Send Message</button>
+          <div id="form-message" class="form-message"></div>
+        </form>
+      </div>
     </section>
+  </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; <span id="current-year"></span> Spotify. All Rights Reserved.</p>
-        </div>
-    </footer>
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="current-year"></span> Spotify. All Rights Reserved.</p>
+    </div>
+  </footer>
 
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

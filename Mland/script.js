@@ -1,92 +1,76 @@
-// Wait for page to load completely
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Set current year in footer
-    const currentYear = new Date().getFullYear();
-    document.getElementById('current-year').textContent = currentYear;
-    
-    // Mobile navigation toggle
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    
-    navToggle.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-    });
-    
-    // Close mobile menu when clicking on menu items
-    const navLinks = document.querySelectorAll('.nav-menu a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            navMenu.classList.remove('active');
-        });
-    });
-    
-    // Smooth scrolling for navigation links
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-    
-    // Contact form handling
-    const contactForm = document.getElementById('contact-form');
-    const formMessage = document.getElementById('form-message');
-    
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form values
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const message = document.getElementById('message').value.trim();
-        
-        // Simple validation
-        if (name === '' || email === '' || message === '') {
-            showFormMessage('Please fill in all fields.', 'error');
-            return;
-        }
-        
-        // Basic email validation
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            showFormMessage('Please enter a valid email address.', 'error');
-            return;
-        }
-        
-        // Success message (since this is client-side only)
-        showFormMessage('Thank you for your message! We will get back to you soon.', 'success');
-        
-        // Reset form
-        contactForm.reset();
-    });
-    
-    // Function to show form messages
-    function showFormMessage(message, type) {
-        formMessage.textContent = message;
-        formMessage.className = 'form-message ' + type;
-        
-        // Hide message after 5 seconds
-        setTimeout(function() {
-            formMessage.textContent = '';
-            formMessage.className = 'form-message';
-        }, 5000);
-    }
+// Set current year
+document.getElementById('current-year').textContent = new Date().getFullYear();
+
+// Mobile navigation
+const navToggle = document.getElementById('nav-toggle');
+const navMenu = document.getElementById('nav-menu');
+
+navToggle.addEventListener('click', function() {
+  navMenu.classList.toggle('open');
 });
 
-// Function for CTA button smooth scroll
-function scrollToSection(sectionId) {
-    const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-        targetSection.scrollIntoView({
-            behavior: 'smooth'
-        });
+// Close mobile menu when clicking a link
+const navLinks = navMenu.querySelectorAll('a');
+navLinks.forEach(link => {
+  link.addEventListener('click', function() {
+    navMenu.classList.remove('open');
+  });
+});
+
+// Active navigation highlighting
+const sections = document.querySelectorAll('main section[id]');
+
+function updateActiveNav() {
+  const scrollPosition = window.scrollY + 100;
+  let current = '';
+  
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.offsetHeight;
+    
+    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+      current = section.id;
     }
+  });
+
+  document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
 }
+
+window.addEventListener('scroll', updateActiveNav);
+updateActiveNav();
+
+// Simple form handling
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const name = this.name.value.trim();
+  const email = this.email.value.trim();
+  const message = this.message.value.trim();
+  const messageDiv = document.getElementById('form-message');
+
+  if (!name || !email || !message) {
+    messageDiv.textContent = 'Please fill in all fields.';
+    messageDiv.className = 'form-message error';
+    return;
+  }
+
+  if (!email.includes('@')) {
+    messageDiv.textContent = 'Please enter a valid email address.';
+    messageDiv.className = 'form-message error';
+    return;
+  }
+
+  messageDiv.textContent = 'Thank you! Your message has been sent.';
+  messageDiv.className = 'form-message success';
+  this.reset();
+
+  setTimeout(() => {
+    messageDiv.textContent = '';
+    messageDiv.className = 'form-message';
+  }, 5000);
+});
